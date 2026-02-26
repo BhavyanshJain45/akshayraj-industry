@@ -1,0 +1,62 @@
+# Robots.txt for Akshayraj Industry
+# Generated: 2024-02-21
+# Blocks admin, installation, and sensitive areas from search engines
+
+# Allow all for most user agents
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /api/products.php
+Allow: /api/settings.php
+Allow: /api/contact.php
+
+# Block sensitive directories
+Disallow: /admin/
+Disallow: /server/
+Disallow: /install/
+Disallow: /includes/
+Disallow: /logs/
+Disallow: /.env
+Disallow: /config.php
+Disallow: /.htaccess
+Disallow: /*.sql$
+Disallow: /*.env.local$
+
+# Block access to private files
+Disallow: /*?*sort=
+Disallow: /*?*page=
+Disallow: /*?*utm_
+Disallow: /_next/
+
+# Allow specific admin areas for monitoring (optional)
+# Disallow: /api/admin/
+
+# XML Sitemap
+Sitemap: https://akshayrajindustry.in/sitemap.xml
+
+# Crawl Delay
+Crawl-delay: 1
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Disallow: /admin/
+Disallow: /server/
+Disallow: /install/
+Allow: /api/products.php
+Allow: /api/settings.php
+
+User-agent: Bingbot
+Disallow: /admin/
+Disallow: /server/
+Disallow: /install/
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Crawler-User-agent: SemrushBot
+Disallow: /

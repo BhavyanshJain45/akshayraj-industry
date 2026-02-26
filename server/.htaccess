@@ -1,0 +1,140 @@
+# Apache Configuration for Akshayraj Industry CMS
+
+# Enable Rewrite Engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Remove .php extension from URLs
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+    
+    # Redirect index.php to home
+    RewriteCond %{REQUEST_URI} ^/index\.php$ [OR]
+    RewriteCond %{QUERY_STRING} ^page=
+    RewriteRule ^.*$ / [R=301,L]
+    
+    # Block access to sensitive directories
+    RewriteRule ^(includes|config|install|logs)(/|$) - [F]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent Clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Enable XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Strict Transport Security (HSTS)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; frame-ancestors 'self';"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Remove Server Header
+    Header always unset Server
+    Header always unset X-Powered-By
+</IfModule>
+
+# Disable Directory Browsing
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-httpd-php
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Browser Cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType font/truetype "access plus 1 year"
+    ExpiresByType font/opentype "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType application/x-font-woff "access plus 1 year"
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+# Prevent access to sensitive files
+<FilesMatch "\.(env|sql|log|config|bak|tmp|lock)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block access to root includes directory
+<Directory /includes>
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</Directory>
+
+# Allow access to uploads directory
+<Directory /uploads>
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Allow from all
+    </IfModule>
+</Directory>
+
+# Deny execution of scripts in upload directories
+<Directory /uploads>
+    php_flag engine off
+    AddType text/plain .php .phtml .php3 .php4 .php5 .php6 .php7 .sh .pl .py .jsp .asp .aspx
+</Directory>
+
+# HTTP/2 Support
+<IfModule mod_http2.c>
+    Protocols h2 http/1.1
+</IfModule>
+
+# PHP settings
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 5M
+    php_value post_max_size 5M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_flag display_errors off
+    php_flag log_errors on
+    php_value error_log /logs/error.log
+</IfModule>
+
+# UTF-8 Encoding
+AddDefaultCharset UTF-8
+AddType 'text/html; charset=UTF-8' html htm

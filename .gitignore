@@ -1,0 +1,107 @@
+# Environment Configuration
+.env
+.env.local
+.env.*.local
+.env.backup
+.env.bak
+
+# Dependencies (node_modules is huge and should be reinstalled fresh)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build Output (generated files)
+dist/
+out/
+build/
+.next/
+.nuxt/
+coverage/
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.code-workspace
+
+# Runtime Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+*.log
+server/logs/*.log
+server/logs/*.txt
+
+# Server Runtime
+server/uploads/*
+server/cache/*
+server/temp/*
+!server/uploads/.gitkeep
+!server/cache/.gitkeep
+!server/logs/.gitkeep
+
+# Backup Files
+*.backup
+*.bak
+*.tmp
+*.old
+*-backup.*
+.htaccess.bak
+
+# Database Exports (except schema)
+*.sql
+*.sql.gz
+*.sql.bak
+*.sqlite
+*.db
+!server/db/schema.sql
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Local Testing
+mailhog/
+.mailhog/
+test-results/
+*.eml
+
+# Security Keys & Certificates
+*.pem
+*.key
+*.crt
+*.key.pub
+*.keystore
+personal-key.json
+
+# Third Party / Misc
+.env.production
+local.settings.json
+appsettings.*.json
+*.min.js
+*.min.css
+
+# Package Manager Lock Files (use fresh install)
+.yarn/cache/
+doc/_site/
+vendor/
+composer.lock
+
+# IDE Metadata
+.vscode/launch.json
+.vscode/extensions.json
+jsconfig.json.bak
+tsconfig.json.bak
